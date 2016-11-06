@@ -2,9 +2,9 @@ package equpalt;
 
 import java.util.*;
 
-public class Seeker implements ISearcher {
+public class MapSearcher implements ISearcher {
 
-    public Seeker() {
+    public MapSearcher() {
     }
 
     private Map<String, Long> map = new TreeMap<>();
@@ -16,7 +16,7 @@ public class Seeker implements ISearcher {
             map.put(classNames[i], modificationDates[i]);
         }
 
-        map = sortByValue(map);
+        map = MapValueSorter.sortByValue(map);
     }
 
     public String[] guess(String start) {
@@ -35,26 +35,5 @@ public class Seeker implements ISearcher {
         resultArr = resultList.toArray(resultArr);
 
         return resultArr;
-    }
-
-    private static <K, V extends Comparable<? super V>> Map<K, V>
-    sortByValue(Map<K, V> map)
-    {
-        List<Map.Entry<K, V>> list =
-                new LinkedList<>(map.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<K, V>>()
-        {
-            @Override
-            public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2) {
-                return (o2.getValue().compareTo(o1.getValue()));
-            }
-        } );
-
-        Map<K, V> result = new LinkedHashMap<>();
-        for (Map.Entry<K, V> entry : list)
-        {
-            result.put(entry.getKey(), entry.getValue());
-        }
-        return result;
     }
 }
